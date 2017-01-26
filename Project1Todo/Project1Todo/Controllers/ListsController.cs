@@ -6,13 +6,14 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Project1Todo.Mappings;
 using Project1Todo.Models;
 
 namespace Project1Todo.Controllers
 {
     public class ListsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private CMSContext db = new CMSContext();
 
         // GET: Lists
         public ActionResult Index()
@@ -46,7 +47,7 @@ namespace Project1Todo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,name")] List list)
+        public ActionResult Create([Bind(Include = "ListId,ListName")] List list)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +79,7 @@ namespace Project1Todo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,name")] List list)
+        public ActionResult Edit([Bind(Include = "ListId,ListName")] List list)
         {
             if (ModelState.IsValid)
             {
