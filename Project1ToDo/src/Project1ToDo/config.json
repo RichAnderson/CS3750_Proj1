@@ -1,0 +1,8 @@
+﻿{
+  "ConnectionStrings": {
+    "DefaultConnection": {
+      //"ListContextConnection": "Server=.;Database=Project1ToDo;Integrated Security=false;User Id=CMSUser;Password=Iwanttoconnect;MultipleActiveResultSets=true"
+      "ListContextConnection": "Server=.;Database=Project1ToDo;Trusted_Connection=true;MultipleActiveResultSets=true"
+    }
+  }
+}
