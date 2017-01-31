@@ -3,7 +3,7 @@
     $.ajax({
         url: '/Items/BuildItemsTable',
         success: function (result) {
-            $('#tableDiv').html(result);
+            $('#itemTableDiv').html(result);
         }
 
     });

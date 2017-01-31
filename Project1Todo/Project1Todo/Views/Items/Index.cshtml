@@ -1,45 +1,45 @@
-﻿@model IEnumerable<Project1Todo.Models.Item>
+﻿
+ @model IEnumerable<Project1Todo.Models.Item>
+
+@* @model Project1Todo.Models.Item *@
 
 @{
+    <!--Figure out how to put varible name in front so it displays name of correct list before ": To Do Items"
+        Figure out a way to put in a navigate back button or have it all on one page
+    -->
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ItemName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Complete)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CompletionDate)
-        </th>
-        <th></th>
-    </tr>
+<h2>ListName : To Do Items</h2>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ItemName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Complete)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompletionDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ItemId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ItemId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ItemId })
-        </td>
-    </tr>
+<div id="tableDiv"></div>
+
+<!-- Create a form using Ajax to submit string to database then update the page -->
+<div id="itemCreateForm">
+    <!--Create ajax fuction to creat form in items controller 
+        <ControllerMethod>, <Controller>, <Actions>-->
+    @*@using (Ajax.BeginForm("AJAXCreate", "Items", new AjaxOptions
+    {
+        //what ajax does with results
+        InsertionMode = InsertionMode.Replace,
+        HttpMethod = "POST",
+        UpdateTargetId = "tableDiv"
+     }))
+     {*@
+     @*<div class="form-group">
+        @Html.AntiForgeryToken()
+        <div>
+        @Html.EditorFor(model => model.ItemName, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.ItemName, "", new { @class = "text-danger" })
+        </div>
+      </div>
+      }*@
+</div>
+
+<!-- Calling Scripts to update the page dynamically (Run once on load only)-->
+@section Scripts {
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/Custom_Scripts/BuildItemTable.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
 }
-
-</table>

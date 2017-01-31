@@ -21,6 +21,15 @@ namespace Project1Todo.Controllers
             return View(db.Category.ToList());
         }
 
+
+        // Build Item table from partial view _ItemTable
+        //public ActionResult BuildCategoriesTable()
+        //{
+        //    //return PartialView("_ItemTable", Json(db.Item.ToList(), JsonRequestBehavior.AllowGet));
+        //    return PartialView("_CategoryTable", db.Category.Where(n => n.CategoryId == Id).ToList());
+        //}
+
+
         // GET: Categories/Details/5
         public ActionResult Details(int? id)
         {

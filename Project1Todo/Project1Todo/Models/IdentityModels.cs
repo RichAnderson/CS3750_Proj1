@@ -25,13 +25,11 @@ namespace Project1Todo.Models
         {
         }
 
-        //public DbSet<Category> Category { get; set; }
-        //public DbSet<List> List { get; set; }
-        //public DbSet<Item> Item { get; set; }
-
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
+
+       // public System.Data.Entity.DbSet<Project1Todo.Models.Item> Items { get; set; }
     }
 }

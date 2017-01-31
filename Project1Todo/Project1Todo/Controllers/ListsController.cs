@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Project1Todo.Mappings;
 using Project1Todo.Models;
+using Project1Todo.Helpers;
 
 namespace Project1Todo.Controllers
 {
@@ -20,6 +21,8 @@ namespace Project1Todo.Controllers
         {
             return View(db.List.ToList());
         }
+
+
 
         // GET: Lists/Details/5
         public ActionResult Details(int? id)
@@ -53,6 +56,17 @@ namespace Project1Todo.Controllers
             {
                 db.List.Add(list);
                 db.SaveChanges();
+                
+
+                if (Session[SettingsKeys.tempItemsList] != null)
+                {
+                    var itemsList = Session[SettingsKeys.tempItemsList] as List<int>;
+                    foreach (int i in itemsList)
+                    {
+                        list.Items.Add(db.Item.Find(i));
+                    }
+                }
+
                 return RedirectToAction("Index");
             }
 
@@ -123,6 +137,7 @@ namespace Project1Todo.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }
+        }        
+
     }
 }

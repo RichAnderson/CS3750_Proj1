@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Project1Todo.Mappings;
 using Project1Todo.Models;
+using Project1Todo.Helpers;
 
 namespace Project1Todo.Controllers
 {
@@ -15,18 +16,19 @@ namespace Project1Todo.Controllers
     {
         private CMSContext db = new CMSContext();
 
+
         // GET: Items
         public ActionResult Index()
         {
-            // return PartialView("_ItemTable", Json(db.Item.ToList(), JsonRequestBehavior.AllowGet));
+           // return PartialView("_ItemTable", Json(db.Item.ToList(), JsonRequestBehavior.AllowGet));
             return View(db.Item.ToList());
         }
 
         // Build Item table from partial view _ItemTable
-        public ActionResult BuildItemsTable()
+        public ActionResult BuildItemsTable(int? id)
         {
             //return PartialView("_ItemTable", Json(db.Item.ToList(), JsonRequestBehavior.AllowGet));
-            return PartialView("_ItemTable", db.Item.ToList());
+            return PartialView("_ItemTable", db.List.Where(n => n.ListId == id).ToList());
         }
 
         // GET: Items/Details/5
@@ -80,6 +82,19 @@ namespace Project1Todo.Controllers
                 item.CompletionDate = null;
                 db.Item.Add(item);
                 db.SaveChanges();
+                if(Session[SettingsKeys.tempItemsList] == null)
+                {
+                    var itemsList = new List<int>();
+                    itemsList.Add(item.ItemId);
+                    Session.Add(SettingsKeys.tempItemsList, itemsList);
+                }
+                else
+                {
+                    var itemsList = Session[SettingsKeys.tempItemsList] as List<int>;
+                    itemsList.Add(item.ItemId);
+                    Session.Add(SettingsKeys.tempItemsList, itemsList);
+                }
+                
             }
 
             //return PartialView("_ItemTable", Json(db.Item.ToList(), JsonRequestBehavior.AllowGet));

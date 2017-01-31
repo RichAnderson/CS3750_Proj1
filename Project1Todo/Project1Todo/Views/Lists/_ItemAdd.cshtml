@@ -1,0 +1,18 @@
+﻿@model Project1Todo.Models.Item
+
+@using (Ajax.BeginForm("AJAXCreate", "Items", new AjaxOptions
+{
+    //what ajax does with results
+    InsertionMode = InsertionMode.Replace,
+    HttpMethod = "POST",
+    UpdateTargetId = "itemTableDiv"
+}))
+{
+    <div class="form-group">
+        @Html.AntiForgeryToken()
+        <div>
+            @Html.EditorFor(model => model.ItemName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ItemName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+}

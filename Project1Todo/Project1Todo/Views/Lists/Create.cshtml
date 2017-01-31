@@ -31,10 +31,27 @@
     </div>
 }
 
+
+<div id="itemTableDiv"></div>
+
+<!-- Create a form using Ajax to submit string to database then update the page -->
+<div id="itemCreateForm">
+    <!--Create ajax fuction to creat form in items controller
+        <ControllerMethod>, <Controller>, <Actions>-->
+    @{Html.RenderPartial("~/Views/Lists/_ItemAdd.cshtml");}
+
+</div>
+
+
+
+
+
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/bundles/jqueryval")
+        <script src = "~/Scripts/jquery.unobtrusive-ajax.min.js" ></script>
+        <script src="~/Custom_Scripts/BuildItemTable.js"></script>
 }
