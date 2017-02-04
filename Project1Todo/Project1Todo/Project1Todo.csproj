@@ -178,11 +178,11 @@
     </Compile>
     <Compile Include="Helpers\SettingsKeys.cs" />
     <Compile Include="Mappings\CMSContext.cs" />
-    <Compile Include="Mappings\CMSContext_Migrations\201701251825164_ToDo1.cs" />
-    <Compile Include="Mappings\CMSContext_Migrations\201701251825164_ToDo1.Designer.cs">
-      <DependentUpon>201701251825164_ToDo1.cs</DependentUpon>
+    <Compile Include="Migrations\CMS\201702012300073_ToDo1.cs" />
+    <Compile Include="Migrations\CMS\201702012300073_ToDo1.Designer.cs">
+      <DependentUpon>201702012300073_ToDo1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Mappings\CMSContext_Migrations\Configuration.cs" />
+    <Compile Include="Migrations\CMS\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -196,6 +196,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Custom_Scripts\AddCheckBoxListener.js" />
+    <Content Include="Custom_Scripts\BuildCategoryTable.js" />
     <Content Include="Custom_Scripts\BuildItemTable.js" />
     <Content Include="Custom_Scripts\BuildListTable.js" />
     <Content Include="favicon.ico" />
@@ -218,7 +219,9 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -271,6 +274,8 @@
     <Content Include="Views\Lists\_ListTable.cshtml" />
     <Content Include="Views\Lists\_ItemAdd.cshtml" />
     <Content Include="Views\Lists\_ItemCollectionTable.cshtml" />
+    <Content Include="Views\Lists\_CategoryAdd.cshtml" />
+    <Content Include="Views\Categories\_CategoryTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -284,8 +289,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Mappings\CMSContext_Migrations\201701251825164_ToDo1.resx">
-      <DependentUpon>201701251825164_ToDo1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\CMS\201702012300073_ToDo1.resx">
+      <DependentUpon>201702012300073_ToDo1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

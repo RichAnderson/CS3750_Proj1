@@ -53,19 +53,49 @@ namespace Project1Todo.Controllers
         public ActionResult Create([Bind(Include = "ListId,ListName")] List list)
         {
             if (ModelState.IsValid)
-            {
+            {                
                 db.List.Add(list);
                 db.SaveChanges();
-                
 
                 if (Session[SettingsKeys.tempItemsList] != null)
                 {
                     var itemsList = Session[SettingsKeys.tempItemsList] as List<int>;
                     foreach (int i in itemsList)
                     {
-                        list.Items.Add(db.Item.Find(i));
+                        var item = db.Item.Find(i);
+                        //set each created items ListId to current lists ID
+                        item.ListId = list.ListId;
+                        db.Entry(item).State = EntityState.Modified;
+                        //add each created item to this Lists collection<Item>
+                        list.Items.Add(item);
+                        db.Entry(list).State = EntityState.Modified;
+
+                        db.SaveChanges();
                     }
+                    Session[SettingsKeys.tempItemsList] = null;  //delete session tempItemsList
                 }
+
+                if (Session[SettingsKeys.tempCategoriesList] != null)
+                {
+                    var catList = Session[SettingsKeys.tempCategoriesList] as List<int>;
+                    foreach (int i in catList)
+                    {
+                        var cat = db.Category.Find(i);
+                        var c = db.Category.FirstOrDefault(n => n.CategoryName == cat.CategoryName);
+
+                        // Add this list to all created categories collection<List>
+                        cat.Lists.Add(list);
+                        db.Entry(cat).State = EntityState.Modified;
+
+                        // Add all created categories to this lists collection<Category>
+                        list.Categories.Add(cat);
+                        db.Entry(list).State = EntityState.Modified;
+
+                        db.SaveChanges();
+                    }
+                    Session[SettingsKeys.tempCategoriesList] = null;   //delete session tempCategoriesList
+                }
+
 
                 return RedirectToAction("Index");
             }
@@ -137,7 +167,8 @@ namespace Project1Todo.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
-        }        
+        }  
+             
 
     }
 }

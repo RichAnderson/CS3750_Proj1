@@ -12,6 +12,8 @@ namespace Project1Todo.Models
         public string ItemName { get; set; }
         public bool Complete { get; set; }
         public DateTime? CompletionDate { get; set; }
-        //public virtual ApplicationUser User { get; set; }
+
+        //think i need to add this
+        public virtual  int? ListId { get; set; }
     }
 }

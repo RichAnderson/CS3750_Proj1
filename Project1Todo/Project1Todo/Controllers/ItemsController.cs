@@ -27,8 +27,7 @@ namespace Project1Todo.Controllers
         // Build Item table from partial view _ItemTable
         public ActionResult BuildItemsTable(int? id)
         {
-            //return PartialView("_ItemTable", Json(db.Item.ToList(), JsonRequestBehavior.AllowGet));
-            return PartialView("_ItemTable", db.List.Where(n => n.ListId == id).ToList());
+            return PartialView("_ItemTable", db.Item.Where(n => n.ListId == id).ToList());
         }
 
         // GET: Items/Details/5
@@ -80,6 +79,7 @@ namespace Project1Todo.Controllers
             {
                 item.Complete = false;
                 item.CompletionDate = null;
+                item.ListId = null;
                 db.Item.Add(item);
                 db.SaveChanges();
                 if(Session[SettingsKeys.tempItemsList] == null)
@@ -96,9 +96,7 @@ namespace Project1Todo.Controllers
                 }
                 
             }
-
-            //return PartialView("_ItemTable", Json(db.Item.ToList(), JsonRequestBehavior.AllowGet));
-            return PartialView("_ItemTable", db.Item.ToList());
+            return PartialView("_ItemTable", db.Item.ToList().Where(n => n.ListId == null));
         }
 
         // GET: Items/Edit/5
@@ -150,9 +148,20 @@ namespace Project1Todo.Controllers
             {
                 item.Complete = value;
                 db.Entry(item).State = EntityState.Modified;
+
+                if (value == false)
+                {
+                    item.CompletionDate = null;
+                }
+                else
+                {
+                    item.CompletionDate = DateTime.Now;
+                }
+
+                db.Entry(item).State = EntityState.Modified;
                 db.SaveChanges();
             }
-            return PartialView("_ItemTable", db.Item.ToList());
+            return PartialView("_ItemTable", db.Item.ToList().Where(n => n.ListId == null));
         }
 
         // GET: Items/Delete/5

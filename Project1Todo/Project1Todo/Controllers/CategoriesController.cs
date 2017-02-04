@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using Project1Todo.Mappings;
 using Project1Todo.Models;
+using Project1Todo.Helpers;
 
 namespace Project1Todo.Controllers
 {
@@ -23,11 +24,10 @@ namespace Project1Todo.Controllers
 
 
         // Build Item table from partial view _ItemTable
-        //public ActionResult BuildCategoriesTable()
-        //{
-        //    //return PartialView("_ItemTable", Json(db.Item.ToList(), JsonRequestBehavior.AllowGet));
-        //    return PartialView("_CategoryTable", db.Category.Where(n => n.CategoryId == Id).ToList());
-        //}
+        public ActionResult BuildCategoriesTable(int? id)
+        {            
+            return PartialView("_CategoryTable", db.Category.ToList());
+        }
 
 
         // GET: Categories/Details/5
@@ -66,6 +66,54 @@ namespace Project1Todo.Controllers
             }
 
             return View(category);
+        }
+
+        // ***********************    IMPORTANT    ******************************//
+        // create a form using ajax (Take the post and matches the type with model binding)
+        // want to add functionality to update completed date completed = true
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AJAXCreate([Bind(Include = "CategoryId,CategoryName")] Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                var cat = db.Category.FirstOrDefault(n => n.CategoryName == category.CategoryName);
+                if(cat == null)
+                {
+                    db.Category.Add(category);
+                    db.SaveChanges();
+
+                    if (Session[SettingsKeys.tempCategoriesList] == null)
+                    {
+                        var catList = new List<int>();
+                        catList.Add(category.CategoryId);
+                        Session.Add(SettingsKeys.tempCategoriesList, catList);
+                    }
+                    else
+                    {
+                        var catList = Session[SettingsKeys.tempCategoriesList] as List<int>;
+                        catList.Add(category.CategoryId);
+                        Session.Add(SettingsKeys.tempCategoriesList, catList);
+                    }
+                }
+                else
+                {
+                    if (Session[SettingsKeys.tempCategoriesList] == null)
+                    {
+                        var catList = new List<int>();
+                        catList.Add(cat.CategoryId);
+                        Session.Add(SettingsKeys.tempCategoriesList, catList);
+                    }
+                    else
+                    {
+                        var catList = Session[SettingsKeys.tempCategoriesList] as List<int>;
+                        catList.Add(cat.CategoryId);
+                        Session.Add(SettingsKeys.tempCategoriesList, catList);
+                    }
+                }
+                
+            }
+            return PartialView("_CategoryTable", db.Category.ToList());
         }
 
         // GET: Categories/Edit/5
